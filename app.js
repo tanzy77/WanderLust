@@ -4,6 +4,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const methodoverride = require("method-override");
 const Listing = require("./models/listing");
+const ejsMate = require("ejs-mate");
 
 main().then(() => {
   console.log("Connected with DB");
@@ -19,6 +20,8 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: true}));
 app.use(methodoverride("_method"));
+app.engine("ejs", ejsMate);
+app.use(express.static(path.join(__dirname, "/public")));
 
 //INDEX ROUTE
 app.get("/listings", async (req, res) => {
