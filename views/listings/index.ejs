@@ -3,7 +3,7 @@
 <div class="row lg:row-cols-4 md:row-cols-3 sm:row-cols-1">
   <% for(let listing of allListings) { %>
     <a href="/listings/<%=listing._id%>" class="listing-link">
-      <div class="card col">
+      <div class="card col listing-cards">
         <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem">
         <div class="card-img-overlay"></div>
         <div class="card-body">
