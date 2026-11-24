@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Review = require("./review");
 
-
 const Schema = mongoose.Schema;
 
 const listingSchema = new Schema({
@@ -20,8 +19,8 @@ const listingSchema = new Schema({
     },
     url: {
       type: String,
-      default: "https://www.flaticon.com/free-icon/default-image_12048902",
-      set: (v) => v === "" ? ("https://www.flaticon.com/free-icon/default-image_12048902") : v,
+      default: "https://images.trvl-media.com/lodging/17000000/16280000/16272400/16272320/w4000h3489x0y11-2a341699.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill",
+      set: (v) => v === "" ? ("https://images.trvl-media.com/lodging/17000000/16280000/16272400/16272320/w4000h3489x0y11-2a341699.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill") : v,
     }
   },
   price: {
@@ -41,7 +40,11 @@ const listingSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Review"
     }  
-  ]
+  ],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 listingSchema.post("findOneAndDelete", async(listing) => {
