@@ -43,32 +43,6 @@ The project focuses on building a practical web application with authentication,
 - Mapbox Geocoding API
 - Render
 
-# Project Structure
-
-` text
-WanderLust/
-│
-├── controllers/
-├── init/
-├── models/
-├── public/
-│   ├── css/
-│   └── js/
-│
-├── routes/
-├── utils/
-├── views/
-│   ├── includes/
-│   ├── layouts/
-│   └── listings/
-│
-├── app.js
-├── middleware.js
-├── schema.js
-├── package.json
-└── README.md
-```
-
 # Installation & Setup
 
 1. Clone the repository:
