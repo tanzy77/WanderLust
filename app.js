@@ -5,7 +5,6 @@ if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
 
-
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -26,22 +25,15 @@ const userRouter = require("./routes/user");
 
 const dbUrl = process.env.ATLASDB_URL;
 
-
 main().then(() => {
   console.log("Connected with DB");
 
-  app.listen(8080, () => {
-    console.log("app listening to 8080");
+  app.listen(process.env.PORT || 8080, () => {
+    console.log("app listening");
   });
 }).catch((err) => {
   console.error("MongoDB connection failed:", err);
 });
-
-// main().then(() => {
-//   console.log("Connected with DB");
-// }).catch((err) => {
-//   console.log(err);
-// });
 
 async function main() {
   await mongoose.connect(dbUrl);
@@ -74,7 +66,7 @@ const sessionOptions = {
   }
 };
 
-store.on("error", () => {
+store.on("error", (err) => {
   console.log("ERROR in MONGO SESSION STORE", err);
 });
  
@@ -104,10 +96,9 @@ app.use("/listings/:id/reviews", reviewRouter);
 //Parent Route of User
 app.use("/", userRouter);
 
-//Home Router
-// app.get("/", (req, res) => {
-//   res.send("Working");
-// });
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+})
 
 //404 Handler
 app.all("/{*splat}", (req, res, next) => {
