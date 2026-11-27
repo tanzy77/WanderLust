@@ -41,21 +41,38 @@ module.exports.validateListing = (req, res, next) => {
 };
 
 module.exports.validateReview = (req, res, next) => {
+  let { rating } = req.body.review || {};
+
+  if (!rating || Number(rating) < 1) {
+    req.flash("error", "Please select at least one star rating!");
+    return res.redirect(`/listings/${req.params.id}`);
+  }
+
   let { error } = reviewSchema.validate(req.body);
+
   if (error) {
     let errMsg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(400, errMsg);
-  } else {
-    next();
   }
+
+  next();
 };
 
 module.exports.isReviewAuthor = async (req, res, next) => {
   const { id, reviewId } = req.params;
+
+  if (!req.isAuthenticated()) {
+    req.flash("error", "You must be logged in first!");
+    return res.redirect("/login");
+  }
+
   let review = await Review.findById(reviewId);
+
   if (!review.author.equals(res.locals.currUser._id)) {
-    req.flash("error", "Access Denied!");
+    req.flash("error", "You are not the author of this review!");
     return res.redirect(`/listings/${id}`);
   }
+
   next();
 };
+
