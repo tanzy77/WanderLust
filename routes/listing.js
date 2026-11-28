@@ -5,7 +5,22 @@ const { isLoggedIn, isOwner, validateListing } = require("../middleware");
 const listingController = require("../controllers/listings");
 const multer  = require('multer')
 const {storage} = require("../cloudConfig");
+const Listing = require("../models/listing");
 const upload = multer({ storage })
+const categories = require("../init/categories");
+
+router.get("/", wrapAsync(async(req, res) => {
+  let { category } = req.query;
+
+  let filter = {};
+  if (category) {
+    filter.category = category;
+  }
+
+  const allListings = await Listing.find(filter);
+
+  res.render("listings/index", { allListings, categories });
+}))
 
 router.route("/")
   .get(wrapAsync(listingController.indexListing))
